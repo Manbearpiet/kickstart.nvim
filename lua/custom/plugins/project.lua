@@ -1,14 +1,14 @@
 return {
   'ahmedkhalf/project.nvim',
+  event = 'VeryLazy',
   init = function()
-    -- Veilige defaults
     require('project_nvim').setup {
       manual_mode = false,
       detection_methods = { 'lsp', 'pattern' },
       patterns = { '.git', 'package.json', 'pyproject.toml', 'go.mod', 'Cargo.toml', 'Makefile', 'CMakeLists.txt' },
       exclude_dirs = { '~/.local/*', '/tmp/*' },
       show_hidden = true,
-      silent_chdir = true,
+      silent_chdir = false,
       scope_chdir = 'tab',
     }
 

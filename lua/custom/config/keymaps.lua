@@ -1,8 +1,8 @@
 -- Define helper function for setting keymaps more easily
 local function map(mode, lhs, rhs, opts)
-    opts = opts or {}
-    opts.silent = opts.silent ~= false
-    vim.keymap.set(mode, lhs, rhs, opts)
+  opts = opts or {}
+  opts.silent = opts.silent ~= false
+  vim.keymap.set(mode, lhs, rhs, opts)
 end
 
 -- [[ Basic Keymaps ]]
@@ -11,17 +11,17 @@ end
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>', {
-    desc = 'Clear search highlights'
+  desc = 'Clear search highlights',
 })
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '<leader>ld', vim.diagnostic.setloclist, {
-    desc = 'Diagnostics loclist'
+  desc = 'Diagnostics loclist',
 })
 
 -- Quit
 map('n', '<leader>q', '<CMD>q<CR>', {
-    desc = 'Quit window'
+  desc = 'Quit window',
 })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
@@ -31,7 +31,7 @@ map('n', '<leader>q', '<CMD>q<CR>', {
 -- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
 -- or just use <C-\><C-n> to exit terminal mode
 map('t', '<Esc><Esc>', '<C-\\><C-n>', {
-    desc = 'Exit terminal mode'
+  desc = 'Exit terminal mode',
 })
 
 -- TIP: Disable arrow keys in normal mode
@@ -42,16 +42,16 @@ map('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
 
 -- Window navigatie (enkel één definitie)
 map('n', '<C-h>', '<C-w>h', {
-    desc = 'Window left'
+  desc = 'Window left',
 })
 map('n', '<C-l>', '<C-w>l', {
-    desc = 'Window right'
+  desc = 'Window right',
 })
 map('n', '<C-j>', '<C-w>j', {
-    desc = 'Window down'
+  desc = 'Window down',
 })
 map('n', '<C-k>', '<C-w>k', {
-    desc = 'Window up'
+  desc = 'Window up',
 })
 
 -- Resize
@@ -62,15 +62,11 @@ map('n', '<C-Down>', '<C-w>-')
 
 -- Save
 map('n', '<leader>w', '<CMD>update<CR>', {
-    desc = 'Write buffer'
+  desc = 'Write buffer',
 })
 
 -- Exit insert mode
 map('i', 'jk', '<ESC>')
-
--- NeoTree
-map('n', '<leader>e', '<CMD>Neotree toggle<CR>')
-map('n', '<leader>r', '<CMD>Neotree focus<CR>')
 
 -- New Windows
 map('n', '<leader>o', '<CMD>vsplit<CR>')
@@ -78,9 +74,9 @@ map('n', '<leader>p', '<CMD>split<CR>')
 
 -- Toggle light/dark background
 map('n', '<leader>bl', function()
-    vim.o.background = (vim.o.background == 'dark') and 'light' or 'dark'
+  vim.o.background = (vim.o.background == 'dark') and 'light' or 'dark'
 end, {
-    desc = 'Toggle light/dark background'
+  desc = 'Toggle light/dark background',
 })
 
 -- [[ Basic Autocommands ]]
@@ -90,12 +86,11 @@ end, {
 --  Try it with `yap` in normal mode
 --  See `:help vim.hl.on_yank()`
 vim.api.nvim_create_autocmd('TextYankPost', {
-    desc = 'Highlight on yank',
-    group = vim.api.nvim_create_augroup('kickstart-highlight-yank', {
-        clear = true
-    }),
-    callback = function()
-        vim.hl.on_yank()
-    end
+  desc = 'Highlight on yank',
+  group = vim.api.nvim_create_augroup('kickstart-highlight-yank', {
+    clear = true,
+  }),
+  callback = function()
+    vim.hl.on_yank()
+  end,
 })
-
