@@ -11,4 +11,13 @@ return {
     -- "echasnovski/mini.pick",         -- optional
     -- "folke/snacks.nvim",             -- optional
   },
+  opts = {
+    kind = 'vsplit',
+    commit_editor = {
+      kind = 'auto',
+      show_staged_diff = true,
+      staged_diff_split_kind = 'split',
+      spell_check = true,
+    },
+  },
 }
