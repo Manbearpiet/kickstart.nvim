@@ -102,8 +102,7 @@ vim.lsp.config['yamlls'] = {
   },
 }
 vim.lsp.enable 'yamlls'
-
+vim.lsp.enable 'marksman'
 vim.api.nvim_create_user_command('LspLog', function()
   vim.cmd.vsplit(vim.fn.fnameescape(vim.lsp.get_log_path()))
 end, {})
-

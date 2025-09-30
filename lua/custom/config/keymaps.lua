@@ -94,3 +94,8 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     vim.hl.on_yank()
   end,
 })
+
+-- Copy the full path of the current file to the clipboard
+remap("n", "<leader>yp", function()
+    vim.fn.setreg("+", vim.fn.expand("%:p:h"))
+end)
