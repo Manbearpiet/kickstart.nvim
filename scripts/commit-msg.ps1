@@ -2,12 +2,21 @@
 
 function New-ClaudeCommitMessage {
     param()
+
+    # Check if we're in a git repository
+    if (-not (git rev-parse --is-inside-work-tree 2>$null)) {
+        throw 'Not in a git repository.'
+    }
+
     # Get staged diff
     $diff = git diff --cached
 
+    if ($LASTEXITCODE -ne 0) {
+        throw "Failed to get staged changes. Git error code: $LASTEXITCODE"
+    }
+
     if ([string]::IsNullOrWhiteSpace($diff)) {
-        Write-Host "No staged changes found. Stage your changes first with 'git add'."
-        exit 1
+        throw "No staged changes found. Stage your changes first with 'git add'."
     }
 
     # Create commit message using Claude
@@ -42,8 +51,24 @@ $diff
 Generate only the commit message, nothing else.
 "@
 
+    # Check if claude CLI is available
+    if (-not (Get-Command claude )) {
+        throw 'Claude CLI not found. Please install it first.'
+    }
+
     # Generate commit message
     $commitMsg = claude -p $prompt
+
+    if ($LASTEXITCODE -ne 0) {
+        throw "Failed to generate commit message. Claude CLI error code: $LASTEXITCODE"
+    }
+
+    if ([string]::IsNullOrWhiteSpace($commitMsg)) {
+        throw 'Claude returned an empty commit message.'
+    }
+
+    $commitMsg = $commitMsg -replace '`'
+    $commitMsg = ($commitMsg -join "`n").trim()
 
     Write-Host "Generated Commit Message:`n$commitMsg" -ForegroundColor Green
 
@@ -52,12 +77,19 @@ Generate only the commit message, nothing else.
     switch ($choice.ToLower()) {
         'y' {
             git commit -m $commitMsg
+            if ($LASTEXITCODE -ne 0) {
+                throw "Git commit failed with error code: $LASTEXITCODE"
+            }
         }
         'e' {
-            $commitMsg = $commitMsg -replace '`'
-            $commitMsg = ($commitMsg -join "`n").trim()
+            if (-not (Get-Command tmux -ErrorAction SilentlyContinue)) {
+                throw "tmux not found. Please install tmux or use 'y' to commit directly."
+            }
             $tmuxMessage = ("git commit -m '{0}'" -f $commitMsg)
             tmux send-keys $tmuxMessage
+            if ($LASTEXITCODE -ne 0) {
+                throw "Failed to send keys to tmux. Error code: $LASTEXITCODE"
+            }
         }
         default {
             Write-Warning 'Commit cancelled.'
