@@ -1,6 +1,26 @@
 #!/usr/bin/env pwsh
 
 function New-ClaudeCommitMessage {
+    <#
+    .SYNOPSIS
+        Generate a commit message using Claude AI based on staged git changes.
+
+    .DESCRIPTION
+        This function analyzes your staged git changes and uses Claude CLI to generate
+        a conventional commit message with gitmoji. The generated message follows the
+        Conventional Commits format with proper type, scope, gitmoji, and description.
+
+    .EXAMPLE
+        New-ClaudeCommitMessage
+        Generates a commit message for currently staged changes and prompts for confirmation.
+
+    .NOTES
+        Requires:
+        - Git repository
+        - Claude CLI installed and available in PATH
+        - Staged changes (use 'git add' first)
+        - tmux (optional, for edit mode)
+    #>
     param()
 
     # Check if we're in a git repository
