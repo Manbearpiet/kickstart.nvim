@@ -1,7 +1,7 @@
 #!/usr/bin/env pwsh
 
 function New-ClaudeCommitMessage {
-    <#
+  <#
     .SYNOPSIS
         Generate a commit message using Claude AI based on staged git changes.
 
@@ -21,26 +21,26 @@ function New-ClaudeCommitMessage {
         - Staged changes (use 'git add' first)
         - tmux (optional, for edit mode)
     #>
-    param()
+  param()
 
-    # Check if we're in a git repository
-    if (-not (git rev-parse --is-inside-work-tree 2>$null)) {
-        throw 'Not in a git repository.'
-    }
+  # Check if we're in a git repository
+  if (-not (git rev-parse --is-inside-work-tree 2>$null)) {
+    throw 'Not in a git repository.'
+  }
 
-    # Get staged diff
-    $diff = git diff --cached
+  # Get staged diff
+  $diff = git diff --cached
 
-    if ($LASTEXITCODE -ne 0) {
-        throw "Failed to get staged changes. Git error code: $LASTEXITCODE"
-    }
+  if ($LASTEXITCODE -ne 0) {
+    throw "Failed to get staged changes. Git error code: $LASTEXITCODE"
+  }
 
-    if ([string]::IsNullOrWhiteSpace($diff)) {
-        throw "No staged changes found. Stage your changes first with 'git add'."
-    }
+  if ([string]::IsNullOrWhiteSpace($diff)) {
+    throw "No staged changes found. Stage your changes first with 'git add'."
+  }
 
-    # Create commit message using Claude
-    $prompt = @"
+  # Create commit message using Claude
+  $prompt = @"
 Follow the Conventional Commits format strictly for commit messages. Use the structure below:
 
 ``````
@@ -71,52 +71,52 @@ $diff
 Generate only the commit message, nothing else.
 "@
 
-    # Check if claude CLI is available
-    if (-not (Get-Command claude )) {
-        throw 'Claude CLI not found. Please install it first.'
+  # Check if claude CLI is available
+  if (-not (Get-Command claude )) {
+    throw 'Claude CLI not found. Please install it first.'
+  }
+
+  # Generate commit message
+  $commitMsg = claude -p $prompt
+
+  if ($LASTEXITCODE -ne 0) {
+    throw "Failed to generate commit message. Claude CLI error code: $LASTEXITCODE"
+  }
+
+  if ([string]::IsNullOrWhiteSpace($commitMsg)) {
+    throw 'Claude returned an empty commit message.'
+  }
+
+  $commitMsg = $commitMsg -replace '`'
+  $commitMsg = ($commitMsg -join "`n").trim()
+
+  Write-Host "Generated Commit Message:`n$commitMsg" -ForegroundColor Green
+
+  $choice = Read-Host 'Use this commit message? (y/n/e to edit/c to copy to clipboard)'
+
+  switch ($choice.ToLower()) {
+    'y' {
+      git commit -m $commitMsg
+      if ($LASTEXITCODE -ne 0) {
+        throw "Git commit failed with error code: $LASTEXITCODE"
+      }
     }
-
-    # Generate commit message
-    $commitMsg = claude -p $prompt
-
-    if ($LASTEXITCODE -ne 0) {
-        throw "Failed to generate commit message. Claude CLI error code: $LASTEXITCODE"
+    'e' {
+      if (-not (Get-Command tmux -ErrorAction SilentlyContinue)) {
+        throw "tmux not found. Please install tmux or use 'y' to commit directly."
+      }
+      $tmuxMessage = ("git commit -m '{0}'" -f $commitMsg)
+      tmux send-keys $tmuxMessage
+      if ($LASTEXITCODE -ne 0) {
+        throw "Failed to send keys to tmux. Error code: $LASTEXITCODE"
+      }
     }
-
-    if ([string]::IsNullOrWhiteSpace($commitMsg)) {
-        throw 'Claude returned an empty commit message.'
+    'c' {
+      $commitMsg | Set-Clipboard
+      Write-Host 'Commit message copied to clipboard.' -ForegroundColor Green
     }
-
-    $commitMsg = $commitMsg -replace '`'
-    $commitMsg = ($commitMsg -join "`n").trim()
-
-    Write-Host "Generated Commit Message:`n$commitMsg" -ForegroundColor Green
-
-    $choice = Read-Host 'Use this commit message? (y/n/e to edit/c to copy to clipboard)'
-
-    switch ($choice.ToLower()) {
-        'y' {
-            git commit -m $commitMsg
-            if ($LASTEXITCODE -ne 0) {
-                throw "Git commit failed with error code: $LASTEXITCODE"
-            }
-        }
-        'e' {
-            if (-not (Get-Command tmux -ErrorAction SilentlyContinue)) {
-                throw "tmux not found. Please install tmux or use 'y' to commit directly."
-            }
-            $tmuxMessage = ("git commit -m '{0}'" -f $commitMsg)
-            tmux send-keys $tmuxMessage
-            if ($LASTEXITCODE -ne 0) {
-                throw "Failed to send keys to tmux. Error code: $LASTEXITCODE"
-            }
-        }
-        'c' {
-            $commitMsg | Set-Clipboard
-            Write-Host 'Commit message copied to clipboard.' -ForegroundColor Green
-        }
-        default {
-            Write-Warning 'Commit cancelled.'
-        }
+    default {
+      Write-Warning 'Commit cancelled.'
     }
+  }
 }
