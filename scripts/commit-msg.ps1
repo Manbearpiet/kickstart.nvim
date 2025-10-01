@@ -92,7 +92,7 @@ Generate only the commit message, nothing else.
 
     Write-Host "Generated Commit Message:`n$commitMsg" -ForegroundColor Green
 
-    $choice = Read-Host 'Use this commit message? (y/n/e to edit)'
+    $choice = Read-Host 'Use this commit message? (y/n/e to edit/c to copy to clipboard)'
 
     switch ($choice.ToLower()) {
         'y' {
@@ -110,6 +110,10 @@ Generate only the commit message, nothing else.
             if ($LASTEXITCODE -ne 0) {
                 throw "Failed to send keys to tmux. Error code: $LASTEXITCODE"
             }
+        }
+        'c' {
+            $commitMsg | Set-Clipboard
+            Write-Host 'Commit message copied to clipboard.' -ForegroundColor Green
         }
         default {
             Write-Warning 'Commit cancelled.'
