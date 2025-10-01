@@ -31,7 +31,8 @@ Guidelines:
 4. **Body**: For additional details, use a well-structured body section:
    - Use bullet points (``*``) for clarity.
    - Clearly describe the motivation, context, or technical details behind the change, if applicable.
-
+   - Make sure to add a newline between the header and body.
+   - Make sure to only use raw text, no backticks or leading and trailing newlines.
 Commit messages should be clear, informative, and professional, aiding readability and project tracking.
 
 Here are my staged changes:
@@ -53,11 +54,13 @@ Generate only the commit message, nothing else.
             git commit -m $commitMsg
         }
         'e' {
-            git commit -e -m $commitMsg
+            $commitMsg = $commitMsg -replace '`'
+            $commitMsg = ($commitMsg -join "`n").trim()
+            $tmuxMessage = ("git commit -m '{0}'" -f $commitMsg)
+            tmux send-keys $tmuxMessage
         }
         default {
-            Write-Host 'Commit cancelled.' -ForegroundColor Yellow
-            exit 1
+            Write-Warning 'Commit cancelled.'
         }
     }
 }
