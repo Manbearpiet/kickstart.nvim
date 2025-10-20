@@ -1,9 +1,8 @@
 return {
   'lukas-reineke/indent-blankline.nvim',
   main = 'ibl',
-  -- Kies zelf: "VeryLazy" om start-up licht te houden,
-  -- of BufReadPre/BufNewFile als je de guides meteen wilt bij het openen.
-  event = 'VeryLazy',
+  -- Laad alleen wanneer je daadwerkelijk een buffer opent
+  event = { 'BufReadPost', 'BufNewFile' },
   opts = {
     indent = {
       highlight = {
