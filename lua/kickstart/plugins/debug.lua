@@ -22,7 +22,23 @@ return {
     'jay-babu/mason-nvim-dap.nvim',
 
     -- Add your own debuggers here
-    'leoluz/nvim-dap-go',
+    -- 'leoluz/nvim-dap-go',
+    -- NOTE: Added these for convience
+    {
+      'Willem-J-an/nvim-dap-powershell',
+      opts = {
+        include_configs = true,
+        pwsh_executable = 'pwsh',
+        pses_bundle_path = '/Users/christianpiet/.config/nvim/PowerShellEditorServices', -- Uncomment if using custom path
+      },
+      dependencies = {
+        {
+          'm00qek/baleia.nvim',
+          lazy = true,
+          tag = 'v1.4.0',
+        },
+      },
+    },
   },
   keys = {
     -- Basic debugging keymaps, feel free to change to your liking!
@@ -94,7 +110,7 @@ return {
       -- online, please don't ask me how to install them :)
       ensure_installed = {
         -- Update this to ensure that you have the debuggers for the langs you want
-        'delve',
+        -- 'delve',
       },
     }
 
@@ -137,12 +153,27 @@ return {
     dap.listeners.before.event_exited['dapui_config'] = dapui.close
 
     -- Install golang specific config
-    require('dap-go').setup {
-      delve = {
-        -- On Windows delve must be run attached or it crashes.
-        -- See https://github.com/leoluz/nvim-dap-go/blob/main/README.md#configuring
-        detached = vim.fn.has 'win32' == 0,
-      },
+    -- require('dap-go').setup {
+    --   delve = {
+    --     -- On Windows delve must be run attached or it crashes.
+    --     -- See https://github.com/leoluz/nvim-dap-go/blob/main/README.md#configuring
+    --     detached = vim.fn.has 'win32' == 0,
+    --   },
+    -- }
+
+    -- Configure baleia to render ANSI colors in DAP log files
+    local baleia_colorizer = require('baleia').setup {
+      line_starts_at = 1,
+      strip_ansi_codes = true,
+      async = true,
     }
+
+    -- Apply baleia to DAP log files when opened
+    vim.api.nvim_create_autocmd('BufRead', {
+      pattern = '*dap*.log',
+      callback = function(event)
+        baleia_colorizer.once(event.buf)
+      end,
+    })
   end,
 }
