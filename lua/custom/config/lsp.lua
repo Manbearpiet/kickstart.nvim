@@ -103,6 +103,13 @@ vim.lsp.config['yamlls'] = {
 }
 vim.lsp.enable 'yamlls'
 vim.lsp.enable 'marksman'
+
+vim.cmd [[ autocmd BufNewFile,BufRead *.bicep set filetype=bicep ]]
+vim.lsp.config['bicep'] = {
+  cmd = { 'dotnet', '/Users/christianpiet/Downloads/bicep-langserver/Bicep.LangServer.dll' },
+}
+vim.lsp.enable 'bicep'
+
 vim.api.nvim_create_user_command('LspLog', function()
   vim.cmd.vsplit(vim.fn.fnameescape(vim.lsp.get_log_path()))
 end, {})
