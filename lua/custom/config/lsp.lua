@@ -109,7 +109,8 @@ vim.lsp.config['bicep'] = {
   cmd = { 'dotnet', '/Users/christianpiet/Downloads/bicep-langserver/Bicep.LangServer.dll' },
 }
 vim.lsp.enable 'bicep'
-vim.lsp.enable 'csharp_ls'
+-- vim.lsp.enable 'csharp_ls'
+vim.lsp.enable 'roslyn'
 
 vim.api.nvim_create_user_command('LspLog', function()
   vim.cmd.vsplit(vim.fn.fnameescape(vim.lsp.get_log_path()))

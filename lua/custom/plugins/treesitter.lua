@@ -8,8 +8,10 @@ return { -- Highlight, edit, and navigate code
     ensure_installed = {
       'bash',
       'c',
+      'c_sharp',
       'diff',
       'html',
+      'json',
       'lua',
       'luadoc',
       'markdown',
@@ -31,6 +33,9 @@ return { -- Highlight, edit, and navigate code
     indent = {
       enable = true,
       disable = { 'ruby' },
+    },
+    fold = {
+      enable = true,
     },
   },
   -- There are additional nvim-treesitter modules that you can use to interact
