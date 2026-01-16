@@ -3,6 +3,7 @@ return {
   main = 'ibl',
   -- Laad alleen wanneer je daadwerkelijk een buffer opent
   event = { 'BufReadPost', 'BufNewFile' },
+  lazy = true,
   opts = {
     indent = {
       highlight = {
