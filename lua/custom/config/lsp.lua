@@ -6,8 +6,8 @@ vim.lsp.config['powershell_es'] = {
     '-ExecutionPolicy',
     'Bypass',
     '-Command',
-    "& '/Users/christianpiet/.config/nvim/PowerShellEditorServices/PowerShellEditorServices/Start-EditorServices.ps1'",
-    "-BundledModulesPath '/Users/christianpiet/.config/nvim/PowerShellEditorServices'",
+    "& '/Users/christian/.config/nvim/PowerShellEditorServices/PowerShellEditorServices/Start-EditorServices.ps1'",
+    "-BundledModulesPath '/Users/christian/.config/nvim/PowerShellEditorServices'",
     '-Stdio',
     "-HostName 'nvim'",
     "-HostProfileId '0'",
@@ -40,7 +40,7 @@ vim.lsp.config['powershell_es'] = {
       },
       scriptAnalysis = {
         enable = true,
-        settingsPath = '/Users/christianpiet/Documents/ScriptAnalyzerSettings.psd1',
+        settingsPath = '/Users/christian/Documents/ScriptAnalyzerSettings.psd1',
       },
       enableProfileLoading = true,
     },
@@ -106,7 +106,7 @@ vim.lsp.enable 'marksman'
 
 vim.cmd [[ autocmd BufNewFile,BufRead *.bicep set filetype=bicep ]]
 vim.lsp.config['bicep'] = {
-  cmd = { 'dotnet', '/Users/christianpiet/Downloads/bicep-langserver/Bicep.LangServer.dll' },
+  cmd = { 'dotnet', '/Users/christian/Downloads/bicep-langserver/Bicep.LangServer.dll' },
 }
 vim.lsp.enable 'bicep'
 -- vim.lsp.enable 'csharp_ls'

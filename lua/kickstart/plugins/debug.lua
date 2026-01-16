@@ -29,7 +29,7 @@ return {
       opts = {
         include_configs = true,
         pwsh_executable = 'pwsh',
-        pses_bundle_path = '/Users/christianpiet/.config/nvim/PowerShellEditorServices', -- Uncomment if using custom path
+        pses_bundle_path = '/Users/christian/.config/nvim/PowerShellEditorServices', -- Uncomment if using custom path
       },
       dependencies = {
         {
@@ -135,7 +135,7 @@ return {
     vim.api.nvim_set_hl(0, 'DapStop', { fg = '#ffcc00' })
     local breakpoint_icons = vim.g.have_nerd_font
         and { Breakpoint = '', BreakpointCondition = '', BreakpointRejected = '', LogPoint = '', Stopped = '' }
-      or { Breakpoint = '●', BreakpointCondition = '⊜', BreakpointRejected = '⊘', LogPoint = '◆', Stopped = '⭔' }
+        or { Breakpoint = '●', BreakpointCondition = '⊜', BreakpointRejected = '⊘', LogPoint = '◆', Stopped = '⭔' }
     for type, icon in pairs(breakpoint_icons) do
       local tp = 'Dap' .. type
       local hl = (type == 'Stopped') and 'DapStop' or 'DapBreak'

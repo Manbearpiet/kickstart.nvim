@@ -4,6 +4,7 @@ return {
   lazy = true,
   ---@module 'oil'
   ---@type oil.SetupOpts
+  lazy = true,
   opts = {
     -- Keymaps in oil buffer. Can be any value that `vim.keymap.set` accepts OR a table of keymap
     -- options with a `callback` (e.g. { callback = function() ... end, desc = "", mode = "n" })
