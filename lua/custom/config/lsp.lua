@@ -105,8 +105,11 @@ vim.lsp.enable 'yamlls'
 vim.lsp.enable 'marksman'
 
 vim.cmd [[ autocmd BufNewFile,BufRead *.bicep set filetype=bicep ]]
+vim.cmd [[ autocmd BufNewFile,BufRead *.bicepparam set filetype=bicep-params ]]
+
 vim.lsp.config['bicep'] = {
   cmd = { 'dotnet', '/Users/christianpiet/Downloads/bicep-langserver/Bicep.LangServer.dll' },
+  filetypes = { 'bicep', 'bicep-params' },
 }
 vim.lsp.enable 'bicep'
 -- vim.lsp.enable 'csharp_ls'
