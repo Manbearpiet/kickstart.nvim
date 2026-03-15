@@ -93,7 +93,11 @@ map('n', '<leader>p', '<CMD>split<CR>')
 
 -- Toggle light/dark background
 map('n', '<leader>bl', function()
-  vim.o.background = (vim.o.background == 'dark') and 'light' or 'dark'
+  if vim.o.background == 'dark' then
+    vim.cmd 'colorscheme github_light_high_contrast'
+  else
+    vim.cmd 'colorscheme github_dark'
+  end
 end, {
   desc = 'Toggle light/dark background',
 })

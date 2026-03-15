@@ -1,7 +1,6 @@
 return {
   'stevearc/oil.nvim',
   event = 'VeryLazy',
-  lazy = true,
   ---@module 'oil'
   ---@type oil.SetupOpts
   lazy = true,

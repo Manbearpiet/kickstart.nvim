@@ -12,7 +12,7 @@ vim.lsp.config['powershell_es'] = {
     "-HostName 'nvim'",
     "-HostProfileId '0'",
     "-HostVersion '1.0.0'",
-    "-LogLevel 'None'",
+    "-LogLevel 'Warning'",
     '-FeatureFlags @()',
   },
   filetypes = { 'ps1', 'psm1', 'psd1' },
