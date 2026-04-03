@@ -32,6 +32,15 @@ vim.keymap.set('n', 'gr', vim.lsp.buf.references, {
 vim.keymap.set('n', 'K', vim.lsp.buf.hover, {
   desc = 'Hover documentation',
 })
+vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, {
+  desc = '[R]e[n]ame',
+})
+vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, {
+  desc = '[C]ode [A]ction',
+})
+vim.keymap.set('i', '<C-k>', vim.lsp.buf.signature_help, {
+  desc = 'Signature help',
+})
 
 -- Quit
 map('n', '<leader>q', '<CMD>q<CR>', {
