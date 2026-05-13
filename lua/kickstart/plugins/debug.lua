@@ -29,7 +29,7 @@ return {
       opts = {
         include_configs = true,
         pwsh_executable = 'pwsh',
-        pses_bundle_path = '/Users/christianpiet/.config/nvim/PowerShellEditorServices', -- Uncomment if using custom path
+        pses_bundle_path = '/Users/Christian.Piet/.config/nvim/PowerShellEditorServices', -- Uncomment if using custom path
       },
       dependencies = {
         {
@@ -174,7 +174,7 @@ return {
 
     dap.adapters.coreclr = {
       type = 'executable',
-      command = '/Users/christianpiet/Downloads/netcoredbg/netcoredbg',
+      command = '/Users/Christian.Piet/Downloads/netcoredbg/netcoredbg',
       args = { '--interpreter=vscode' },
     }
 

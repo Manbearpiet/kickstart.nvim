@@ -6,8 +6,8 @@ vim.lsp.config['powershell_es'] = {
     '-ExecutionPolicy',
     'Bypass',
     '-Command',
-    "& '/Users/christianpiet/.config/nvim/PowerShellEditorServices/PowerShellEditorServices/Start-EditorServices.ps1'",
-    "-BundledModulesPath '/Users/christianpiet/.config/nvim/PowerShellEditorServices'",
+    "& '/Users/Christian.Piet/.config/nvim/PowerShellEditorServices/PowerShellEditorServices/Start-EditorServices.ps1'",
+    "-BundledModulesPath '/Users/Christian.Piet/.config/nvim/PowerShellEditorServices'",
     '-Stdio',
     "-HostName 'nvim'",
     "-HostProfileId '0'",
@@ -40,7 +40,7 @@ vim.lsp.config['powershell_es'] = {
       },
       scriptAnalysis = {
         enable = true,
-        settingsPath = '/Users/christianpiet/Documents/ScriptAnalyzerSettings.psd1',
+        settingsPath = '/Users/Christian.Piet/Documents/ScriptAnalyzerSettings.psd1',
       },
       enableProfileLoading = true,
     },
@@ -108,7 +108,7 @@ vim.cmd [[ autocmd BufNewFile,BufRead *.bicep set filetype=bicep ]]
 vim.cmd [[ autocmd BufNewFile,BufRead *.bicepparam set filetype=bicep-params ]]
 
 vim.lsp.config['bicep'] = {
-  cmd = { 'dotnet', '/Users/christianpiet/Downloads/bicep-langserver/Bicep.LangServer.dll' },
+  cmd = { 'dotnet', '/Users/Christian.Piet/Downloads/bicep-langserver/Bicep.LangServer.dll' },
   filetypes = { 'bicep', 'bicep-params' },
 }
 vim.lsp.enable 'bicep'
