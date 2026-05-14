@@ -79,7 +79,7 @@ $diff
   }
 
   # Generate commit message
-  $commitMsg = claude -p $prompt
+  $commitMsg = claude --model haiku -p $prompt
 
   if ($LASTEXITCODE -ne 0) {
     throw "Failed to generate commit message. Claude CLI error code: $LASTEXITCODE"

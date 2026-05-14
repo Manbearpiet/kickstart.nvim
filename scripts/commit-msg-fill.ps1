@@ -45,7 +45,7 @@ $diff
 
 "@
 
-$commitMsg = claude -p $prompt
+$commitMsg = claude --model haiku -p $prompt
 
 if ($LASTEXITCODE -ne 0) {
   Write-Error "Claude CLI failed with exit code: $LASTEXITCODE"
@@ -63,5 +63,5 @@ $commitMsg = ($commitMsg -join "`n").trim()
 $commitMsg | Set-Content "$gitDir/CLAUDE_MSG" -NoNewline
 
 Write-Host $commitMsg
-Write-Host ""
+Write-Host ''
 Write-Host "Press 'C' in LazyGit to open editor with this message pre-filled"
