@@ -47,8 +47,31 @@ opt.winborder = 'rounded' -- Use rounded borders for floating windows
 opt.foldmethod = 'indent'
 opt.foldenable = true
 opt.foldlevel = 99 -- Start with all folds open
+-- opt.showtabline = 1
 
 vim.cmd 'syntax on' -- Enable syntax highlighting (legacy command)
+
+-- Show only filename (not full path) in tab labels
+local function setup_tab_hl()
+  vim.api.nvim_set_hl(0, 'MyTabActive', { link = 'TabLineSel' })
+  vim.api.nvim_set_hl(0, 'MyTabInactive', { link = 'Normal' })
+end
+setup_tab_hl()
+vim.api.nvim_create_autocmd('ColorScheme', { callback = setup_tab_hl })
+
+function _G.MyTabLine()
+  local s = ''
+  for i = 1, vim.fn.tabpagenr '$' do
+    local winnr = vim.fn.tabpagewinnr(i)
+    local bufnr = vim.fn.tabpagebuflist(i)[winnr]
+    local name = vim.fn.bufname(bufnr)
+    name = name ~= '' and vim.fn.fnamemodify(name, ':t') or '[No Name]'
+    s = s .. (i == vim.fn.tabpagenr() and '%#MyTabActive#' or '%#MyTabInactive#')
+    s = s .. ' ' .. name .. ' '
+  end
+  return s .. '%#TabLineFill#'
+end
+opt.tabline = '%!v:lua.MyTabLine()'
 
 vim.schedule(function()
   vim.o.clipboard = 'unnamedplus' -- Use system clipboard (scheduled to not slow startup)
