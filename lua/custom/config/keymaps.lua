@@ -116,7 +116,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 
 -- Copy the full path of the current file to the clipboard
 map('n', '<leader>yp', function()
-  vim.fn.setreg('+', vim.fn.expand '%:p:h')
+  vim.fn.setreg('+', vim.fn.expand '%:p')
 end, {
   desc = 'Copy full path of current buffer to clipboard',
 })
